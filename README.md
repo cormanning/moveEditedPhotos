@@ -1,6 +1,4 @@
 # moveEditedPhotos
-Move edited photos and related files to a backup directory.
-
 While the name says "moveEditedPhotos" this can be applied to any pair of files with matching filenames with differing extensions.
 
 ## Usage
