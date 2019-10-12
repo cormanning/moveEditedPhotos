@@ -76,24 +76,28 @@ if [ "$verbose" = true ]; then
 	echo "Checking all files with extension ${ext1}"
 fi
 
-for file in $( find . -type f -iname "*.${ext1}" | cut -f 2- -d '/' ); do
-	f1=$file;
-	filename=$(echo "$f1" | cut -f 1 -d '.')
+OIFS="$IFS"
+IFS=$'\n'
+for file in $( find . -type f -iname "*.${ext1}" ); 
+do
+	#printf -v f1 '%q' "$file"
+	filename="${file%.*}"
 
 	## if there exists a matching file with the same name as f1 but with extension ext2, 
 	## copy them both to the destination directory
-	if [ -e "${filename}.${ext2}" ]; then
+	if [[ -f "${filename}.${ext2}" ]]; then
 		f1=${filename}.${ext1}
 		f2=${filename}.${ext2}
 
 		if [ "$verbose" = true ]; then
 			echo "Matching files:"
-			echo "${f1}"
-			echo "${f2}"
+			echo "$f1"
+			echo "$f2"
 			echo ""
 		fi
 
-		cp ${f1} ${out_dir} 
-		cp ${f2} ${out_dir}
+		cp $f1 $out_dir 
+		cp $f2 $out_dir
 	fi
-done 
+done
+IFS="$OIFS" 
